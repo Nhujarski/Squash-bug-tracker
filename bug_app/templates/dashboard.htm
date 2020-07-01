@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Dashboard</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header" style="text-align: center;">
+                <h1 style="font-family:'Lobster', cursive; color:#3DF862">Dashboard</h1>
+                <h3 style="font-family:'Lobster', cursive;"> Hello {{current_user.first_name}}</h3>
+            </div>
+            <div class="body">
+                
+            </div>
+            <!-- end body -->
+            <div class="footer" style="text-align: center;">
+                <button class="btn btn-info" style="background-color:#3DF862"><a href="/addproject" style= "color: black; text-decoration: none; font-family:'Lobster', cursive;">Add Project</a></button>
+                <button class="btn btn-info" style="background-color:#3DF862"><a href="/logout" style= "color: black; text-decoration: none; font-family:'Lobster', cursive;">Logout!</a></button>
+            </div>
+            <!-- end of footer -->
+        </div>
+        <!-- end container -->
+    </body>
+</html>
