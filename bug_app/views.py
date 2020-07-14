@@ -21,6 +21,7 @@ def register(request):
     new_user = User.objects.create(first_name=form['first_name'], last_name=form['last_name'], email=form['email'], password=hashed_pw)
     request.session['user_id']=new_user.id
     return redirect('/dashboard')
+
 # process the login of a user.
 def login(request):
     form = request.POST
@@ -34,15 +35,48 @@ def login(request):
     request.session['user_id'] = user_id    
     return redirect('/dashboard')
 
+# renders dashboard page
 def dashboard(request):
     if 'user_id' not in request.session:
         return redirect('/')
     context = {
         'current_user': User.objects.get(id=request.session['user_id']),
-        
+        'projects': Project.objects.all()
     }
     return render(request, 'dashboard.htm', context)
 
+# handles logout
 def logout(request):
     request.session.clear()
     return redirect('/')
+
+# renders new project page
+def new_project(request):
+    context = {
+        'current_user': User.objects.get(id=request.session['user_id'])
+    }
+    return render(request,'addproject.htm', context)
+
+# handels adding a new project to data base.
+def add_project(request):
+    
+    form = request.POST
+    errors_returned = Project.objects.project_validator(form)
+    # print(errors_returned)
+    if len(errors_returned) > 0:
+        request.session['project_error'] = True
+        for single_error in errors_returned.values():
+            messages.error(request, single_error)
+        return redirect('projects/new')
+    if len(errors_returned) == 0:
+        current_user = User.objects.get(id=request.session['user_id'])
+        new_project = Project.objects.create(project_name=form['project_name'],project_desc=form['project_desc'],user=current_user)
+        return redirect('/projects/' + str(Project.objects.last().id))
+
+# show project details page
+def project_details(request,id):
+    my_project = Project.objects.get(id=id)
+    context = {
+        'project' : my_project
+    }
+    return render(request,'projectdetails.htm',context)

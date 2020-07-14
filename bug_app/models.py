@@ -72,7 +72,7 @@ class BugManager(models.Manager):
         bug_errors = {}
 
         if len(post_data['bug_name']) < 2:
-            bug_errors['bug_name'] = 'Name must be onger than  2 characters. Please enter a valid name.'
+            bug_errors['bug_name'] = 'Name must be longer than  2 characters. Please enter a valid name.'
         if len(post_data['desc']) < 2:
             bug_errors['desc'] = 'Descritption must be loger than 2 characters. Please enter a valid Description.'
         return bug_errors
