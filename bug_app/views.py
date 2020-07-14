@@ -80,3 +80,4 @@ def project_details(request,id):
         'project' : my_project
     }
     return render(request,'projectdetails.htm',context)
+
