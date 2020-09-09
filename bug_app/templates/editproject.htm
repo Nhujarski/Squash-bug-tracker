@@ -3,33 +3,35 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Squash: a bug tracker</title>
+        <title>{{ project.project_name }} Edit Page</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
-        <h1 style="color: black; text-decoration: none; font-family:'Lobster', cursive;"><b>Hello {{ current_user.first_name }}, Please create a project!</b></h1>
+    <!-- Header -->
+        <h1><b>Hello {{ current_user.first_name }}! Lets edit your Project!!</b></h1>
         {% if request.session.project_error == True %} {% for message in messages %}
-    <p>{{message}}</p>
+    <p style="color: red;">{{message}}</p>
     {%endfor%} {% endif %}
-    <div style="width: 500px;">
+    <!-- End Header -->
 
-    <form action="/add_project" method="POST">
+    <div style="width: 500px;">
+        <!-- Start Form -->
+    <form action="/edit/{{project.id}}" method="POST">
         {% csrf_token %}
         <div class="form-group">
             <label for="">Project Name: </label>
-            <input type="text" name="project_name" class="form-control" placeholder="Project Name">
+            <input type="text" name="project_name" class="form-control" placeholder="{{ project.project_name }}">
         </div>
         <div class="form-group">
             <label for="">Description: </label>
-            <input type="text" name="project_desc" class="form-control" placeholder="Project Descritption">
+            <input type="text" name="project_desc" class="form-control" placeholder="{{project.project_desc}}">
         </div>
-        
-        <button class="btn btn-outline-dark" style="color:#3DF862; text-decoration: none; font-family:'Lobster', cursive;">Submit!</button>
-        <a class="btn btn-outline-dark" role="button" href="/dashboard" style="color: #3DF862; font-family:'Lobster', cursive;"">Cancel</a> </button>
+        <button class="btn btn-info" style="background-color: #3DF862; color:black">Submit!</button>
+        <button class="btn btn-info" style="background-color: #3DF862"><a href="/dashboard" style="text-decoration: none; color:black">Cancel</a> </button>
     </form>
-    
+    <!-- End Form -->
     </div>
     
     </body>

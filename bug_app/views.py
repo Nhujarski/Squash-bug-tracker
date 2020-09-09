@@ -81,3 +81,38 @@ def project_details(request,id):
     }
     return render(request,'projectdetails.htm',context)
 
+# method that renders edit job page.
+def project_edit(request,id):
+    context = {
+        'current_user': User.objects.get(id=request.session['user_id']),
+        'project': Project.objects.get(id=id),
+
+    }
+    return render(request,'editproject.htm',context)
+
+# method to edit project in database.
+def edit(request,id):
+    if request.method != 'POST':
+        return redirect('/dashboard')
+
+    form = request.POST
+    errors_returned = Project.objects.project_validator(form)
+    # print(errors_returned)
+    if len(errors_returned) > 0:
+        request.session['project_error'] = True
+        for single_error in errors_returned.values():
+            messages.error(request, single_error)
+        return redirect(f'/projects/edit/{id}')
+
+    job_to_update = Project.objects.get(id=id)
+    job_to_update.project_name = form['project_name']
+    job_to_update.project_desc = form['project_desc']
+    job_to_update.save()
+
+    return redirect(f'/projects/{id}')
+
+# method to delete specific project from database.
+def delete(request, id):
+    project_to_delete = Project.objects.get(id=id)
+    project_to_delete.delete()
+    return redirect('/dashboard')
